@@ -1,0 +1,27 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+      - 'releases/*'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 檢出代碼
+        uses: actions/checkout@v3
+
+      - name: 設置 Node.js 環境
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: 安裝依賴
+        run: npm ci
+
+      - name: 執行 Lint
+        run: npm run lint
