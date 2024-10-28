@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - develop
       - 'releases/*'
 
 jobs:
@@ -18,10 +19,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: 'npm'
+
+      - name: 安裝 pnpm
+        run: npm install -g pnpm
+
+      - name: 將 pnpm 添加到 PATH
+        run: export PATH=$(npm bin -g):$PATH
 
       - name: 安裝依賴
-        run: npm ci
+        run: pnpm install
 
       - name: 執行 Lint
-        run: npm run lint
+        run: pnpm run lint
